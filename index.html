@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            fuzzi
+        </title>
+        <meta charset="utf-8">
+        <style>
+            table {
+                border-collapse: collapse;
+                border: 2px black solid;
+                font: 12px sans-serif;
+            }
+            td,th {
+                border: 1px black solid;
+                padding: 5px;
+            }
+        </style>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/script.js" type="text/javascript"></script>
+        <script src="js/tabeltocsv.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <table id='table'></table>
+        <button id="load">click to download</button>
+  
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var hasil=[];
+                $('#load').click(function(){
+                    $.ajax({
+                        url:"DataTugas2.csv",
+                        dataType:"text",
+                        success:function(d){
+                            var data =  d.split(/\r?\n|\r/);
+                            for (var i = 0; i<data.length; i++){
+                                if (i==0){
+                                    data[i]+=", , , , , , , , , , nilai";
+                                }else {
+                                    data[i]=proses(data,i);
+                                }
+                            }
+                            hasil=urutkan(data);
+                            for (var i=0; i<20; i++){
+                                $('#table').append("<tr><td>"+hasil[i]+"</td></tr>");
+                            }
+                            donlot("TebakanTugas2.csv");
+                            $("#load").hide();
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
